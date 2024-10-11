@@ -1,0 +1,3 @@
+/Users/gabrielatab/CLionProjects/COP4533fa24/cmake-build-debug/CMakeFiles/COP4533fa24.dir
+/Users/gabrielatab/CLionProjects/COP4533fa24/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/gabrielatab/CLionProjects/COP4533fa24/cmake-build-debug/CMakeFiles/rebuild_cache.dir
