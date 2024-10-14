@@ -10,16 +10,20 @@
 * @return a tuple containing the number of platforms used, the optimal total height, and the number of paintings on each platform
 */
 std::tuple<int, int, std::vector<int>> program1(int n, int W, std::vector<int> heights, std::vector<int> widths) {
+    // variables to be returned by our function
     int platforms = 0;
     int totalHeight = 0;
     std::vector<int> paintingsPerPlatform;
 
+    // helper variables to keep track of program
     int currentWidth = 0;
     int currentHeight = 0;
     int paintingsOnCurrentPlatform = 0;
 
     for (int i = 0; i < n; i++) {
-
+        // current painting would not fit on current Platform.
+        // instead, create a new platform.
+        // update all variables about the current platform and overall solution (totalHeight, platforms, the vector)
         if (currentWidth + widths[i] > W) {
             totalHeight += currentHeight;
             platforms++;
@@ -28,13 +32,18 @@ std::tuple<int, int, std::vector<int>> program1(int n, int W, std::vector<int> h
             currentWidth = widths[i];
             currentHeight = heights[i];
             paintingsOnCurrentPlatform = 1;
-        } else {
+
+        }
+        // else, the current painting fits on the current platform
+        // add the width of the painting to current width, and check whether height needs to be updated. add 1 to vector
+        else {
             currentWidth += widths[i];
             currentHeight = std::max(currentHeight, heights[i]);
             paintingsOnCurrentPlatform++;
         }
     }
 
+    // takes care of the case where the last platform did not get completely filled, so it didn't get updated above
     if (paintingsOnCurrentPlatform > 0) {
         totalHeight += currentHeight;
         platforms++;
