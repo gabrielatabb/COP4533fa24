@@ -9,17 +9,18 @@ std::tuple<int, int, std::vector<int>> program2(int n, int W, std::vector<int> h
 
     int currentWidth = 0;
     int currentHeight = 0;
-    int paintingsOnCurrentPlatform = 0;
+
+    int paintingsOnCurrentPlatform = 0; //All previous variables are initialized to 0
 
     int turningPoint = 0;
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < n; i++) {//Calculate the turning point
         if (heights[i] > heights[i - 1]) {
             turningPoint = i;
             break;
         }
     }
 
-    for (int i = 0; i < turningPoint; i++) {
+    for (int i = 0; i < turningPoint; i++) {//Calculate the first half of the paintings
         if (currentWidth + widths[i] > W) {
             totalHeight += currentHeight;
             platforms++;
@@ -35,7 +36,7 @@ std::tuple<int, int, std::vector<int>> program2(int n, int W, std::vector<int> h
         }
     }
 
-    if (paintingsOnCurrentPlatform > 0) {
+    if (paintingsOnCurrentPlatform > 0) {//Add the last platform
         totalHeight += currentHeight;
         platforms++;
         paintingsPerPlatform.push_back(paintingsOnCurrentPlatform);
@@ -45,7 +46,7 @@ std::tuple<int, int, std::vector<int>> program2(int n, int W, std::vector<int> h
     currentHeight = 0;
     paintingsOnCurrentPlatform = 0;
 
-    for (int i = turningPoint; i < n; i++) {
+    for (int i = turningPoint; i < n; i++) {//Calculate the second half of the paintings
         if (currentWidth + widths[i] > W) {
             totalHeight += currentHeight;
             platforms++;
@@ -61,7 +62,7 @@ std::tuple<int, int, std::vector<int>> program2(int n, int W, std::vector<int> h
         }
     }
 
-    if (paintingsOnCurrentPlatform > 0) {
+    if (paintingsOnCurrentPlatform > 0) {//Add the last platform
         totalHeight += currentHeight;
         platforms++;
         paintingsPerPlatform.push_back(paintingsOnCurrentPlatform);
