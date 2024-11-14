@@ -24,16 +24,23 @@ std::tuple<int, int, std::vector<int>> program5B(int n, int W, std::vector<int> 
 
     dp[0] = 0; // base case
 
+    // for each painting
     for (int i = 0; i <= n; i++){
         int totWidth = 0;
         int maxHeight = 0;
 
+        //check all previous valid platform start points
         for (int j = i; j >= 1; j--){
             totWidth += widths[j - 1];
+
+            // if max platform width is exceeded
             if (totWidth > W)
                 break;
 
+            //height of current config
             maxHeight = std::max(maxHeight, heights[j - 1]);
+
+            //if this configuration is more optimal, update dp and other vectors.
             if (dp[j - 1] + maxHeight  < dp[i]){
                 dp[i] = dp[j - 1] + maxHeight;
                 platforms[i] = platforms[j - 1] + 1;
@@ -43,6 +50,7 @@ std::tuple<int, int, std::vector<int>> program5B(int n, int W, std::vector<int> 
         }
     }
 
+    //after the loops terminate, index n stores the optimal solution to the overall problem.
     return std::make_tuple(platforms[n], dp[n], paintingPlaced[n]);
 }
 

@@ -10,9 +10,7 @@
 * @return a tuple containing the number of platforms used, the optimal total height, and the number of paintings on each platform
 */
 
-/*
- *
- */
+//helper function to allow memoization
 int minHeight(int idx, int n, int W, std::vector<int>& heights, std::vector<int>& widths,
               std::vector<int>& memo, std::vector<int>& platforms, std::vector<std::vector<int>>& paintingPlaced){
     if (idx == n) // base case
@@ -25,15 +23,20 @@ int minHeight(int idx, int n, int W, std::vector<int>& heights, std::vector<int>
     int maxHeight = 0;
     int minCost = INT_MAX;
 
+    //checks all the platform combinations from idx to n
     for (int i = idx; i < n; i++){
         totWidth += widths[i];
+
+        //if max platform width is exceeded
         if (totWidth > W)
             break;
 
+        //the recursive call and cost of the current config
         maxHeight = std::max(maxHeight, heights[i]);
-        int currCost = maxHeight
-                       + minHeight(i + 1, n, W, heights, widths, memo, platforms, paintingPlaced);
+        int currCost = maxHeight + minHeight(i + 1, n, W, heights, widths,
+                                             memo, platforms, paintingPlaced);
 
+        // If this config is better, update minCost and the vectors
         if(currCost < minCost){
             minCost = currCost;
             if (i + 1 < n) {
@@ -48,14 +51,16 @@ int minHeight(int idx, int n, int W, std::vector<int>& heights, std::vector<int>
         }
     }
 
+    //memoize, return
     return memo[idx] = minCost;
 }
 
 std::tuple<int, int, std::vector<int>> program5A(int n, int W, std::vector<int> heights, std::vector<int> widths){
-    std::vector<int> memo(n, -1);
-    std::vector<int> platforms(n, 0);
-    std::vector<std::vector<int>> paintingPlaced(n);
+    std::vector<int> memo(n, -1); //memoization array
+    std::vector<int> platforms(n, 0); //num platforms used up until i
+    std::vector<std::vector<int>> paintingPlaced(n); //how many plaintings on each platform
 
+    //solve the problem, starting at the first painting. the helper function handles the recursive calls.
     int sol = minHeight(0, n, W, heights, widths, memo, platforms, paintingPlaced);
     return std::make_tuple(platforms[0], sol, paintingPlaced[0]);
 }
