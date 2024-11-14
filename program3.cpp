@@ -7,10 +7,10 @@
 std::tuple<int, int, std::vector<int>> program3(int n, int W, std::vector<int> heights, std::vector<int> widths) {
     int minHeightSum = INT_MAX;
     int minPlatforms = INT_MAX;
-    std::vector<int> bestPlatformCounts;
+    std::vector<int> bestPlatformCounts;//Variables that keep track of the best solution.
 
     std::function<void(int, int, int, std::vector<int>&)> findArrangement = [&](int start, int totalHeight, int platforms, std::vector<int>& platformCounts) {
-        if (start == n) {
+        if (start == n) { //Base case for the recursive function to see if all have been processed
             if (totalHeight < minHeightSum || (totalHeight == minHeightSum && platforms < minPlatforms)) {
                 minHeightSum = totalHeight;
                 minPlatforms = platforms;
